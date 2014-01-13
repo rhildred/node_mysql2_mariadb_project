@@ -25,7 +25,10 @@
   },
 
   "dependencies": {
-    "express": "~3.4.4"
+	    "js-toolbox": "*",
+	    "assert-runner": "*",
+	    "mysql2-openshift": "*",
+	    "render-async": "*"
   },
   "devDependencies": {},
   "bundleDependencies": [],
