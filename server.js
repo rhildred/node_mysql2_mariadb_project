@@ -13,6 +13,14 @@ app.set('views', __dirname + '/public');
 
 app.get("/johnyDrop", function(req, res){johnyDrop(req, res);});
 
+//add a route for environment variables
+
+app.get("/process.env", function(req, res){
+	res.setHeader("Content-Type", "application/json");
+	res.end(JSON.stringify(process.env));
+});
+
+
 //server everything index.html welcome file
 app.use(renderAsync.webServer);
 
