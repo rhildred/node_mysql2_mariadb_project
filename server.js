@@ -15,9 +15,11 @@ app.get("/johnyDrop", function(req, res){johnyDrop(req, res);});
 
 //add a route for environment variables
 
-app.get("/process.env", function(req, res){
+app.get("/process.env.OPENSHIFT_MYSQL_DB_HOST", function(req, res){
 	res.setHeader("Content-Type", "application/json");
-	res.end(JSON.stringify(process.env));
+	var oHost = {OPENSHIFT_MYSQL_DB_HOST: process.env.OPENSHIFT_MYSQL_DB_HOST};
+	console.log(oHost);
+	res.end(JSON.stringify(oHost));
 });
 
 
