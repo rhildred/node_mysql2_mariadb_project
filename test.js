@@ -1,45 +1,65 @@
 var TestRunner = require('assert-runner'),
 assert = require('assert'),
 mysql = require('mysql2-openshift'),
-johnyDrop = require('./js/johnyDrop.js').johnyDrop;
+categories = require('./js/categories.js');
 
 var tests = {
 	"Test of nothing": function(){
 		assert(true == true);
 		
 	},
-	"Test of Johny drop": function(done){
+	"Test of categories": function(done){
 		var req = new TestRunner.TestRequest();
 		var res = new TestRunner.TestResponse();
-		johnyDrop(req, res, null, function(err){
+		categories.categories(req, res, null, function(err){
 			assert(err == null);
+			console.log(res.sBody);
 			assert(res.sBody != "");
 			done();
 		});
 	},
-	"Test of Johny drop with q": function(done){
+	"Test of category": function(done){
 		var req = new TestRunner.TestRequest();
-		req.params['q'] = 'Frodo';
+		req.params.category = 1;
 		var res = new TestRunner.TestResponse();
-		johnyDrop(req, res, null, function(err){
+		categories.category(req, res, null, function(err){
 			assert(err == null);
-			assert(res.sBody == '[{"id":1,"name":"Frodo","address":"Bag End","city":"Shire","state":"Middle Earth","post_code":"123456"}]');
+			console.log(res.sBody);
+			assert(res.sBody != "");
 			done();
 		});
 	},
-	"Test of Johny drop with SQL injection": function(done){
+	"Test of products": function(done){
 		var req = new TestRunner.TestRequest();
-		req.params['q'] = "Johny';DROP TABLE test2;#";
+		req.params.category = 1;
 		var res = new TestRunner.TestResponse();
-		johnyDrop(req, res, null, function(err){
-			connection = mysql.createConnection({
-				user : 'root',
-				database : 'test2'
-			});
-			connection.query("SELECT * FROM test2", function(err, rows) {
-				assert(err == null);
-				done();				
-			});
+		categories.products(req, res, null, function(err){
+			assert(err == null);
+			console.log(res.sBody);
+			assert(res.sBody != "");
+			done();
+		});
+	},
+	"Test of product": function(done){
+		var req = new TestRunner.TestRequest();
+		req.params.product = 1;
+		var res = new TestRunner.TestResponse();
+		categories.product(req, res, null, function(err){
+			assert(err == null);
+			console.log(res.sBody);
+			assert(res.sBody != "");
+			done();
+		});
+	},
+	"Test of images": function(done){
+		var req = new TestRunner.TestRequest();
+		req.params.product = 1;
+		var res = new TestRunner.TestResponse();
+		categories.images(req, res, null, function(err){
+			assert(err == null);
+			console.log(res.sBody);
+			assert(res.sBody != "");
+			done();
 		});
 	}
 };

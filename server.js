@@ -1,27 +1,17 @@
-var TestRunner = require('assert-runner'),
-assert = require('assert'),
-renderAsync = require('render-async'),
-renderFile = renderAsync.__express,
-jQuery = require('js-toolbox')._jQuery,
-johnyDrop = require('./js/johnyDrop.js').johnyDrop;
+var renderAsync = require('render-async'),
+categories = require('./js/categories.js');
 
 //now we need a server for this so that we can test include
 var app= renderAsync.express();
 app.set('views', __dirname + '/public');
 
-// add a route for Johny Drop table
+// add routes for categories
 
-app.get("/johnyDrop", function(req, res){johnyDrop(req, res);});
-
-//add a route for environment variables
-
-app.get("/process.env.OPENSHIFT_MYSQL_DB_HOST", function(req, res){
-	res.setHeader("Content-Type", "application/json");
-	var oHost = {OPENSHIFT_MYSQL_DB_HOST: process.env.OPENSHIFT_MYSQL_DB_HOST};
-	console.log(oHost);
-	res.end(JSON.stringify(oHost));
-});
-
+app.get("/categories", function(req, res){categories.categories(req, res);});
+app.get("/categories/:category", function(req, res){categories.category(req, res);});
+app.get("/categories/:category/products", function(req, res){categories.products(req, res);});
+app.get("/categories/:category/products/:product", function(req, res){categories.product(req, res);});
+app.get("/categories/:category/products/:product/images", function(req, res){categories.images(req, res);});
 
 //server everything index.html welcome file
 app.use(renderAsync.webServer);
